@@ -11,31 +11,34 @@
     <title>Details</title>
 </head>
 <body>
-<table>
-    <tr>
-        <td>Id</td>
-        <td>@Model.Id</td>
-    </tr>
-    <tr>
-        <td>Фамилия</td>
-        <td>@Model.LastName</td>
-    </tr>
-    <tr>
-        <td>Имя</td>
-        <td>@Model.FirstName</td>
-    </tr>
-    <tr>
-        <td>Отчество</td>
-        <td>@Model.Patronymic</td>
-    </tr>
-    <tr>
-        <td>Должность</td>
-        <td>@Model.Age</td>
-    </tr>
-    <tr>
-        <td>Должность</td>
-        <td>@Model.Position</td>
-    </tr>
-</table>
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>@Model.Id</td>
+        </tr>
+        <tr>
+            <td>Фамилия</td>
+            <td>@Model.LastName</td>
+        </tr>
+        <tr>
+            <td>Имя</td>
+            <td>@Model.FirstName</td>
+        </tr>
+        <tr>
+            <td>Отчество</td>
+            <td>@Model.Patronymic</td>
+        </tr>
+        <tr>
+            <td>Должность</td>
+            <td>@Model.Age</td>
+        </tr>
+        <tr>
+            <td>Должность</td>
+            <td>@Model.Position</td>
+        </tr>
+            
+    </table>
+    <br/>
+    <a>@Html.ActionLink("Назад к списку", "Index")</a>
 </body>
 </html>

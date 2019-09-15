@@ -32,6 +32,25 @@ namespace WebStore.Controllers
                 Age = 32,
                 Position = "Engineer"
 
+            },
+            new EmployeeView
+            {
+                Id = 3,
+                FirstName = "Karl",
+                LastName = "LastName3",
+                Patronymic = "Patrom3",
+                Age = 32,
+                Position = "NONE"
+
+            },
+            new EmployeeView
+            {
+                Id = 3,
+                FirstName = "Peter",
+                LastName = "LastName4",
+                Patronymic = "Patrom4",
+                Age = 32,
+                Position = "NONE"
             }
         };
         // GET: Home
