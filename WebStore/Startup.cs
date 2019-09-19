@@ -32,6 +32,7 @@ namespace WebStore
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();//нужен для использование файлов в wwwroot
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
