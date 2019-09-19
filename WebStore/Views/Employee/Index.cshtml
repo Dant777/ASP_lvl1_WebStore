@@ -1,16 +1,5 @@
 ﻿@model List<WebStore.ViewModels.EmployeeView>
-@{
-    Layout = null;
-}
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
     <h2>Список сотрудников</h2>
     <table>
         @foreach (var item in Model)
@@ -27,5 +16,4 @@
             </tr>
         }
     </table>
-</body>
-</html>
+

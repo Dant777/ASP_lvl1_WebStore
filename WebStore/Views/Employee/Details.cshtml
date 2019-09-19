@@ -1,17 +1,7 @@
 ﻿@model WebStore.ViewModels.EmployeeView
-@{
-    Layout = null;
-}
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
-    <table>
+<table>
         <tr>
             <td>Id</td>
             <td>@Model.Id</td>
@@ -36,9 +26,7 @@
             <td>Должность</td>
             <td>@Model.Position</td>
         </tr>
-            
-    </table>
-    <br/>
-    <a>@Html.ActionLink("Назад к списку", "Index")</a>
-</body>
-</html>
+</table>
+<br/>
+<a>@Html.ActionLink("Назад к списку", "Index")</a>
+
