@@ -29,5 +29,9 @@ namespace WebStore.Controllers
         {
             return View();
         }
+        public IActionResult CheackOut()
+        {
+            return View();
+        }
     }
 }
