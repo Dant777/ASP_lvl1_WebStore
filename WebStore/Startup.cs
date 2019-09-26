@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebStore.Infrastructure;
 
 namespace WebStore
 {
@@ -27,12 +28,16 @@ namespace WebStore
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseStaticFiles();//нужен для использование файлов в wwwroot
+            app.UseStaticFiles();//нужен для использование файлов в wwwroot
+
+            app.UseMiddleware<TokenMiddleware>();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
