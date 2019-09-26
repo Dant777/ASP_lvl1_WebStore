@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebStore.Infrastructure.Interfaces;
 using WebStore.ViewModels;
 
 namespace WebStore.Controllers
@@ -11,65 +12,72 @@ namespace WebStore.Controllers
     [Route("users")]
     public class EmployeeController : Controller
     {
-        public EmployeeController()
+        private readonly IEmployeeService _employeeService;
+        public EmployeeController(IEmployeeService employeeServicee)
         {
-
+            _employeeService = employeeServicee;
         }
-        private readonly List<EmployeeView> _employee = new List<EmployeeView>
-        {
-            
-            new EmployeeView
-            {
-                Id = 1,
-                FirstName = "Ivan",
-                LastName = "LastName1",
-                Patronymic = "Patrom1",
-                Age = 22,
-                Position = "Teacher"
-
-            },
-            new EmployeeView
-            {
-                Id = 2,
-                FirstName = "Alex",
-                LastName = "LastName2",
-                Patronymic = "Patrom2",
-                Age = 32,
-                Position = "Engineer"
-
-            },
-            new EmployeeView
-            {
-                Id = 3,
-                FirstName = "Karl",
-                LastName = "LastName3",
-                Patronymic = "Patrom3",
-                Age = 32,
-                Position = "NONE"
-
-            },
-            new EmployeeView
-            {
-                Id = 3,
-                FirstName = "Peter",
-                LastName = "LastName4",
-                Patronymic = "Patrom4",
-                Age = 32,
-                Position = "NONE"
-            }
-        };
+        
         // GET: Home
         [Route("all")]
         public ActionResult Index()
         {
-            
-            return View(_employee);
+            //Получение списка всех сотрудников
+            return View(_employeeService.GetAll());
         }
         [Route("{id}")]
         public ActionResult Details(int id)
         {
 
-            return View(_employee.FirstOrDefault(x => x.Id == id));
+            return View(_employeeService.GetById(id));
+        }
+
+        [HttpGet]
+        [Route("edit/{id}")]
+        public IActionResult Edit(int? id)
+        {
+            if (!id.HasValue)
+                return View(new EmployeeView());
+
+            EmployeeView model = _employeeService.GetById(id.Value);
+
+            if (model == null)
+                return NotFound();
+
+            return View(model);
+
+        }
+        [HttpPost]
+        [Route("edit/{id}")]
+        public IActionResult Edit(EmployeeView model)
+        {
+            if (model.Id > 0) // Если есть Id, то редактируем моель
+            {
+                var dbItem = _employeeService.GetById(model.Id);
+                if (ReferenceEquals(dbItem, null))
+                    return NotFound();
+                dbItem.FirstName = model.FirstName;
+                dbItem.LastName = model.LastName;
+                dbItem.Age = model.Age;
+                dbItem.Patronymic = model.Patronymic;
+                dbItem.Position = model.Position;
+
+            }
+            else
+            {
+                _employeeService.AddNew(model);
+            }
+            _employeeService.Commit();
+
+            return View(model);
+
+        }
+
+        [Route("delete/{id}")]
+        public IActionResult Delete(int id)
+        {
+            _employeeService.Delete(id);
+            return RedirectToAction("Index");
         }
     }
 }
