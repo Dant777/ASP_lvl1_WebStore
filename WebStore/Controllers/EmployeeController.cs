@@ -8,11 +8,16 @@ using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
-    
+    [Route("users")]
     public class EmployeeController : Controller
     {
+        public EmployeeController()
+        {
+
+        }
         private readonly List<EmployeeView> _employee = new List<EmployeeView>
         {
+            
             new EmployeeView
             {
                 Id = 1,
@@ -54,12 +59,13 @@ namespace WebStore.Controllers
             }
         };
         // GET: Home
+        [Route("all")]
         public ActionResult Index()
         {
             
             return View(_employee);
         }
-
+        [Route("{id}")]
         public ActionResult Details(int id)
         {
 

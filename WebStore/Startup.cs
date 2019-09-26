@@ -36,8 +36,8 @@ namespace WebStore
             }
 
             app.UseStaticFiles();//нужен для использование файлов в wwwroot
-
-            app.UseMiddleware<TokenMiddleware>();
+            app.UseMvcWithDefaultRoute();
+            //app.UseMiddleware<TokenMiddleware>();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
