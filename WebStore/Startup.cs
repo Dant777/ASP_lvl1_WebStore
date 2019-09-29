@@ -26,16 +26,15 @@ namespace WebStore
         {
             services.AddMvc();//деклорируем что можем использовать MVC
 
+            services.AddSingleton<IProductService, InMemoryProductService>();
             //добавляет разрешение зависимости. Где встречается интерфейс IEmployeeService он заменится классом EmployeeService 
-            //тоесть EmployeeService можно будет заменять любым другим классом 
+            //тоесть EmployeeService можно будет заменять любым другим классом
             services.AddScoped<IEmployeeService, EmployeeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

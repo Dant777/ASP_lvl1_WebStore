@@ -1,0 +1,56 @@
+﻿@model IEnumerable<WebStore.ViewModels.CategoryViewModel>
+<h2>Category</h2>
+<div class="panel-group category-products" id="accordian">
+    <!--category-productsr-->
+    @foreach (var parentCartegory in Model)
+    {
+        if (parentCartegory.ChildCategories.Count > 0)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" 
+                           data-parent="#accordian"
+                           href="@parentCartegory.Name.ToLower()">
+                            <span class="badge pull-right">
+                                <i class="fa fa-plus"></i>
+                            </span>
+                            @parentCartegory.Name
+                        </a>
+                    </h4>
+                </div>
+                <div id="@parentCartegory.Name.ToLower()" 
+                     class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <ul>
+                            @foreach (var childSection in
+                                parentCartegory.ChildCategories)
+                            {
+                                <li>
+                                    <a asp-controller="Catalog" asp-action="Shop" asp-route-cartegoryId="@childSection.Id">
+                                        @childSection.Name
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a asp-controller="Catalog" asp-action="Shop" asp-route-cartegoryId="@parentCartegory.Id">
+                            @parentCartegory.Name
+                        </a>
+                    </h4>
+                </div>
+            </div>
+        }
+    }
+
+  
+  
+</div><!--/category-products-->
