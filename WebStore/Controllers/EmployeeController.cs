@@ -13,9 +13,9 @@ namespace WebStore.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService _employeeService;
-        public EmployeeController(IEmployeeService employeeServicee)
+        public EmployeeController(IEmployeeService employeeService)
         {
-            _employeeService = employeeServicee;
+            _employeeService = employeeService;
         }
         
         // GET: Home
@@ -33,7 +33,7 @@ namespace WebStore.Controllers
         }
 
         [HttpGet]
-        [Route("edit/{id}")]
+        [Route("edit/{id?}")]
         public IActionResult Edit(int? id)
         {
             if (!id.HasValue)
@@ -48,7 +48,7 @@ namespace WebStore.Controllers
 
         }
         [HttpPost]
-        [Route("edit/{id}")]
+        [Route("edit/{id?}")]
         public IActionResult Edit(EmployeeView model)
         {
             if (!ModelState.IsValid)
