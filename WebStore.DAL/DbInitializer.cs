@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using WebStore.Domain1.Entities;
-using WebStore.Domain1.Filters;
-using WebStore.Infrastructure.Interfaces;
 
-namespace WebStore.Infrastructure.Services
+namespace WebStore.DAL
 {
-    public class InMemoryProductService:IProductService
+    public class DbInitializer
     {
-        private readonly List<Category> _categories;
-
-        private readonly List<Brand> _brands;
-        private readonly List<Product> _products;
-        public InMemoryProductService()
+        public static void Initialize(WebStoreContext context)
         {
-            _categories = new List<Category>()
+            context.Database.EnsureCreated();
+            // Look for any products.
+            if (context.Products.Any())
+            {
+                return; // DB has been seeded
+            }
+
+            var categories = new List<Category>()
             {
                 new Category()
-                { 
+                {
                     Id = 1,
                     Name = "Sportswear",
                     Order = 0,
@@ -231,7 +232,20 @@ namespace WebStore.Infrastructure.Services
                 }
 
             };
-            _brands = new List<Brand>()
+            using (var trans = context.Database.BeginTransaction())
+            {
+                foreach (var section in categories)
+                {
+                    context.Categories.Add(section);
+                }
+
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Sections] ON");
+                context.SaveChanges();
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Sections] OFF");
+                trans.Commit();
+            }
+
+            var brands = new List<Brand>()
             {
                 new Brand()
                 {
@@ -276,7 +290,20 @@ namespace WebStore.Infrastructure.Services
                     Order = 6
                 },
             };
-            _products = new List<Product>()
+            using (var trans = context.Database.BeginTransaction())
+            {
+                foreach (var brand in brands)
+                {
+                    context.Brands.Add(brand);
+                }
+
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Brands] ON");
+                context.SaveChanges();
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Brands] OFF");
+                trans.Commit();
+            }
+
+            var products = new List<Product>()
             {
                 new Product()
                 {
@@ -399,25 +426,20 @@ namespace WebStore.Infrastructure.Services
                     BrandId = 3
                 },
             };
-        }
-        public IEnumerable<Category> GetCategories()
-        {
-            return _categories;
-        }
+            using (var trans = context.Database.BeginTransaction())
+            {
+                foreach (var product in products)
+                {
+                    context.Products.Add(product);
+                }
 
-        public IEnumerable<Brand> GetBrands()
-        {
-            return _brands;
-        }
-        public IEnumerable<Product> GetProducts(ProductFilter filter)
-        {
-            var products = _products;
-            if (filter.CategoryId.HasValue)
-                products = products.Where(p => p.CategoryId.Equals(filter.CategoryId)).ToList();
-            if (filter.BrandId.HasValue)
-                products = products.Where(p => p.BrandId.HasValue && p.BrandId.Value.Equals(filter.BrandId.Value)).ToList();
-            
-            return products;
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Products] ON");
+                context.SaveChanges();
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Products] OFF");
+                trans.Commit();
+
+            }
+
         }
     }
 }

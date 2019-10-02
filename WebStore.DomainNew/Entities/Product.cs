@@ -30,6 +30,8 @@ namespace WebStore.Domain1.Entities
         /// </summary>
         public decimal Price { get; set; }
 
+        //public string Manufacturer { get; set; }    
+
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
 
