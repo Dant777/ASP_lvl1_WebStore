@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using WebStore.Domain1.Entities;
 
+
 namespace WebStore.DAL
 {
     public class DbInitializer
@@ -18,7 +19,7 @@ namespace WebStore.DAL
                 return; // DB has been seeded
             }
 
-            var categories = new List<Category>()
+            var categories = new List<Category>
             {
                 new Category()
                 {
@@ -239,9 +240,9 @@ namespace WebStore.DAL
                     context.Categories.Add(section);
                 }
 
-                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Sections] ON");
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Category] ON");
                 context.SaveChanges();
-                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Sections] OFF");
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Category] OFF");
                 trans.Commit();
             }
 

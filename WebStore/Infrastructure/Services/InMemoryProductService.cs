@@ -17,7 +17,7 @@ namespace WebStore.Infrastructure.Services
         private readonly List<Product> _products;
         public InMemoryProductService()
         {
-            _categories = new List<Category>()
+            _categories = new List<Category>
             {
                 new Category()
                 { 

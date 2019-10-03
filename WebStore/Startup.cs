@@ -27,11 +27,13 @@ namespace WebStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();//деклорируем что можем использовать MVC
+
             services.AddScoped<IProductService, SqlProductService>();
 
             //добавляет разрешение зависимости. Где встречается интерфейс IEmployeeService он заменится классом EmployeeService 
             //тоесть EmployeeService можно будет заменять любым другим классом 
             services.AddScoped<IEmployeeService, EmployeeService>();
+
             services.AddDbContext<WebStoreContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
