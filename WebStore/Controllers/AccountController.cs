@@ -24,6 +24,36 @@ namespace WebStore.Controllers
         {
             return View(new LoginViewModel());
         }
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var loginResult =
+                await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
+            if (!loginResult.Succeeded)
+            {
+                ModelState.AddModelError("", "Вход невозможен");
+                return View(model);
+            }
+
+            if (Url.IsLocalUrl(model.ReturnUrl))
+            {
+                return Redirect(model.ReturnUrl);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
 
         [HttpGet]
         public IActionResult Register()
@@ -54,6 +84,8 @@ namespace WebStore.Controllers
             await _signInManager.SignInAsync(user, false);
 
             return RedirectToAction("Index", "Home");
+
+
         }
     }
 }

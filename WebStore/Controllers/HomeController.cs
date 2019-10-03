@@ -15,6 +15,7 @@ namespace WebStore.Controllers
         [SimpleActionFilter]
         public IActionResult Index()
         {
+
             return View();
         }
 
