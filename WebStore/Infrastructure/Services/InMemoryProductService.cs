@@ -419,5 +419,10 @@ namespace WebStore.Infrastructure.Services
             
             return products;
         }
+
+        public Product GetProductById(int Id)
+        {
+            return _products.FirstOrDefault(p => p.Id == Id);
+        }
     }
 }
